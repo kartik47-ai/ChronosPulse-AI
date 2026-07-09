@@ -16,9 +16,10 @@ app = FastAPI(
 
 # 1. CORS Configuration
 origins = [
-    "https://chronos-pulse-oeb47n69i-kk1dgca-5078s-projects.vercel.app",  # <--- REPLACE THIS with your actual Vercel URL
+    "https://chronos-pulse-oeb47n69i-kk1dgca-5078s-projects.vercel.app", # The exact URL from your screenshot
     "http://localhost:5500",
-    "http://127.0.0.1:5500"
+    "http://127.0.0.1:5500",
+    "*" # Keep this for now to ensure it works
 ]
 
 app.add_middleware(

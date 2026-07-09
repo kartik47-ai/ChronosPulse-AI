@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChronosPulse-AI Live Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Include Supabase JS Library for Real-Time streaming -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏥 ChronosPulse-AI</h1>
+            <p>Live Emergency Room Waiting Queue</p>
+        </header>
+
+        <!-- Patient Symptom Input Form -->
+        <section class="form-section">
+            <h3>Check In / Describe Symptoms</h3>
+            <div class="input-group">
+                <input type="text" id="symptomInput" placeholder="e.g., Severe chest pain, burning fever, minor cut...">
+                <button id="submitBtn">Submit to Triage</button>
+            </div>
+        </section>
+
+        <!-- Live Queue Monitor Dashboard -->
+       <!-- Live Queue Monitor Dashboard -->
+        <section class="queue-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <div class="analytics-container" style="display: flex; gap: 20px; margin-bottom: 20px;">
+    <div style="background: #eef2f7; padding: 15px; border-radius: 8px; flex: 1; text-align: center; border-left: 5px solid #007bff;">
+        <h4 style="margin: 0; color: #555;">Total Waiting Patients</h4>
+        <p id="totalWaitingCount" style="font-size: 24px; font-weight: bold; margin: 5px 0 0 0;">0</p>
+    </div>
+    <div style="background: #fdf3f3; padding: 15px; border-radius: 8px; flex: 1; text-align: center; border-left: 5px solid #dc3545;">
+        <h4 style="margin: 0; color: #555;">Critical Emergencies</h4>
+        <p id="emergencyCount" style="font-size: 24px; font-weight: bold; color: #dc3545; margin: 5px 0 0 0;">0</p>
+    </div>
+</div>
+                <h3>🔴 Live Tracker Waiting Room</h3>
+                <!-- THIS IS THE NEW TOGGLE BUTTON -->
+                <button id="toggleStaffBtn" style="background-color: #666; padding: 6px 12px; font-size: 14px;">Toggle Staff View</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Symptom</th>
+                        <th>Urgency Status</th>
+                        <th>Est. Wait Time</th>
+                        <th>Status</th>
+                        <!-- THIS IS THE NEW ACTIONS COLUMN (HIDDEN BY DEFAULT) -->
+                        <th class="staff-col" style="display: none;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="queueTableBody">
+                    <!-- Dynamic live rows will go here -->
+                </tbody>
+            </table>
+        </section>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

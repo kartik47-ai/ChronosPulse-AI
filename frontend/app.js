@@ -2,8 +2,8 @@
 const SUPABASE_URL = "https://hdbwapndudnbcexxzoxk.supabase.co";
 const SUPABASE_KEY = "sb_publishable_EiwxmwNC1cwbkyNoDp3PHA_86EyxwoN";
 
-// IMPORTANT: Point this to your actual public backend Codespace URL!
-const BACKEND_API_URL = "https://curly-garbanzo-x5jxr5g6p94wcp9gq-8000.app.github.dev/api/triage";
+// UPDATED: Now pointing to your live Render backend
+const BACKEND_API_URL = "https://chronospulse-backend.onrender.com/api/triage";
 
 // Initialize Supabase Client using the window context to avoid global naming collisions
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -71,20 +71,20 @@ function appendQueueRow(item, isNew = false) {
     if (document.getElementById(`row-${item.id}`)) return;
 
     // 🎨 Dynamically map styles based on urgency level
-    let badgeStyle = "background-color: #6c757d; color: white; font-weight: bold; padding: 5px 10px; border-radius: 4px;"; // Default gray
+    let badgeStyle = "background-color: #6c757d; color: white; font-weight: bold; padding: 5px 10px; border-radius: 4px;"; 
     const urgency = String(item.urgency_level).toLowerCase();
     
     if (urgency === "emergency" || urgency === "critical") {
-        badgeStyle = "background-color: #dc3545; color: white; font-weight: bold; padding: 5px 10px; border-radius: 4px;"; // Red 🔴
+        badgeStyle = "background-color: #dc3545; color: white; font-weight: bold; padding: 5px 10px; border-radius: 4px;";
     } else if (urgency === "urgent") {
-        badgeStyle = "background-color: #fd7e14; color: white; font-weight: bold; padding: 5px 10px; border-radius: 4px;"; // Orange 🟠
+        badgeStyle = "background-color: #fd7e14; color: white; font-weight: bold; padding: 5px 10px; border-radius: 4px;";
     } else if (urgency === "routine" || urgency === "non-urgent") {
-        badgeStyle = "background-color: #28a745; color: white; font-weight: bold; padding: 5px 10px; border-radius: 4px;"; // Green 🟢
+        badgeStyle = "background-color: #28a745; color: white; font-weight: bold; padding: 5px 10px; border-radius: 4px;";
     }
 
     const row = document.createElement("tr");
     row.id = `row-${item.id}`;
-    row.style.transition = "all 0.5s ease"; // Smooth look for real-time additions
+    row.style.transition = "all 0.5s ease";
     
     row.innerHTML = `
         <td>#${item.id}</td>
@@ -99,13 +99,13 @@ function appendQueueRow(item, isNew = false) {
     `;
 
     if (isNew) {
-        tbody.insertBefore(row, tbody.firstChild); // Put new additions at top
+        tbody.insertBefore(row, tbody.firstChild);
     } else {
         tbody.appendChild(row);
     }
 }
 
-// Post symptom data to your local FastAPI backend
+// Post symptom data to your Render backend
 async function submitSymptom() {
     const input = document.getElementById("symptomInput");
     if (!input) return;
@@ -121,29 +121,27 @@ async function submitSymptom() {
         });
         
         if (response.ok) {
-            input.value = ""; // Clear input on success
+            input.value = ""; 
         } else {
-            alert("Backend processing failed. Check your FastAPI console logs.");
+            alert("Backend processing failed. Check your Render logs.");
         }
     } catch (err) {
         console.error("Network error connecting to Backend:", err);
     }
 } 
 
-// Triggered when a staff member updates a patient's status
 function handleLiveUpdate(item) {
     const row = document.getElementById(`row-${item.id}`);
     if (!row) return;
 
     if (item.queue_status === 'Completed') {
-        row.remove(); // Drop from view completely if finished
+        row.remove();
     } else {
         const statusCell = document.getElementById(`status-${item.id}`);
         if (statusCell) statusCell.innerHTML = `<strong>${item.queue_status}</strong>`;
     }
 }
 
-// Push status change straight to Supabase
 async function updateStatus(id, newStatus) {
     const { error } = await supabaseClient
         .from('triage_queue')
@@ -153,7 +151,6 @@ async function updateStatus(id, newStatus) {
     if (error) alert("Update failed: " + error.message);
 }
 
-// Show/Hide buttons when staff toggle is clicked
 function toggleStaffMode() {
     staffMode = !staffMode;
     document.querySelectorAll('.staff-col').forEach(col => {
@@ -161,7 +158,6 @@ function toggleStaffMode() {
     });
 }
 
-// 📊 Live Analytics Counters logic
 function updateAnalyticsCounters() {
     const rows = document.querySelectorAll("#queueTableBody tr");
     let totalWaiting = 0;
@@ -184,7 +180,6 @@ function updateAnalyticsCounters() {
         }
     });
 
-    // Aapki screen par counters ki ID 'totalWaitingCount' aur 'emergencyCount' ho toh ye unhe badal dega
     const totalCountEl = document.getElementById("totalWaitingCount");
     const emergencyCountEl = document.getElementById("emergencyCount");
 

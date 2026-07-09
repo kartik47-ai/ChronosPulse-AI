@@ -16,10 +16,9 @@ app = FastAPI(
 
 # 1. CORS Configuration
 origins = [
-    "https://curly-garbanzo-x5jxr5g6p94wcp9gq-5500.app.github.dev",
-    "http://127.0.0.1:5500",
+    "https://chronos-pulse-oeb47n69i-kk1dgca-5078s-projects.vercel.app",  # <--- REPLACE THIS with your actual Vercel URL
     "http://localhost:5500",
-    "*" # 👈 This allows your upcoming live Vercel frontend to talk to this backend
+    "http://127.0.0.1:5500"
 ]
 
 app.add_middleware(
